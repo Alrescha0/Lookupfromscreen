@@ -28,4 +28,3 @@ jobs:
         with:
           name: KelimeAvcisi-apk
           path: "**/build/outputs/apk/debug/*.apk"
-        
