@@ -16,9 +16,16 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.7"
-      - run: unzip -q KelimeAvcisi.zip
-      - run: cd KelimeAvcisi && gradle assembleDebug
+      - name: Projeyi hazirla
+        run: |
+          ls
+          ZIP=$(ls *.zip 2>/dev/null | head -n1)
+          if [ -n "$ZIP" ]; then unzip -q "$ZIP"; fi
+          D=$(dirname "$(find . -name settings.gradle.kts | head -n1)")
+          echo "PROJE=$D" >> $GITHUB_ENV
+      - run: cd "$PROJE" && gradle assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: KelimeAvcisi-apk
-          path: KelimeAvcisi/app/build/outputs/apk/debug/*.apk
+          path: "**/build/outputs/apk/debug/*.apk"
+        
